@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="UI.MainPage">
+
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25">
+
+            <ListView ItemsSource="{Binding listadoDePokemons}" 
+          SelectedItem="{Binding CasillaSelecionada}" 
+            Margin="0,10,0,0"
+                 MaximumWidthRequest="80"
+                        VerticalScrollBarVisibility="Never"
+                  >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Orientation="Vertical" Padding="5" Spacing="5">
+                                <Label Text="{Binding url}"/>
+                                <Label Text="{Binding img}" />
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
