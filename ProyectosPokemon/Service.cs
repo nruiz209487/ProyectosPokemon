@@ -1,69 +1,72 @@
 ﻿using DAL;
 using ENT;
+using Newtonsoft.Json;
 
 namespace ProyectosPokemon
 {
     public class Service
     {
-        public static async Task<List<Pokemon>> ObtenerListadoDePokemonsDAL()
+        private const string URL = "https://pokeapi.co/api/v2/pokemon";
+        private static int IndicePokemon { get; set; } = 0;
 
+        public static int ObtenerIndicePokemonDAL()
         {
+            return IndicePokemon;
+        }
 
-            //Pido la cadena de la Uri al método estático
+        public static async Task<List<Pokemon>> ObtenerListadoDePokemonsDAL(int avance)
+        {
+            AsignarIndiceBusqueda(avance);
 
-            string miCadenaUrl = ApiUriBase.getUriBase();
+            Uri miUri = new Uri($"{URL}?limit=20&offset={IndicePokemon}");
 
-            Uri miUri = new Uri($"{miCadenaUrl}pokemon?limit=20&offset=0");
-
-            List<Pokemon> listadoDePokemons = new List<Pokemon>();
-
-            HttpClient mihttpClient;
-
-            HttpResponseMessage miCodigoRespuesta;
-
-            string textoJsonRespuesta;
-
-            //Instanciamos el cliente Http
-
-            mihttpClient = new HttpClient();
-
+            List<Pokemon>? listadoDePokemons = new List<Pokemon>();
+            HttpClient mihttpClient = new HttpClient();
 
             try
-
             {
-
-                miCodigoRespuesta = await mihttpClient.GetAsync(miUri);
+                HttpResponseMessage miCodigoRespuesta = await mihttpClient.GetAsync(miUri);
 
                 if (miCodigoRespuesta.IsSuccessStatusCode)
-
                 {
-
-                    textoJsonRespuesta = await mihttpClient.GetStringAsync(miUri);
-
-                    mihttpClient.Dispose();
-
-                    //JsonConvert necesita using Newtonsoft.Json;
-
-                    //Es el paquete Nuget de Newtonsoft
-
-                    listadoDePokemons = JsonConvert.DeserializeObject<List<Pokemon>>(textoJsonRespuesta);
-
+                    string textoJsonRespuesta = await miCodigoRespuesta.Content.ReadAsStringAsync();
+                    PokemonApiResponse? apiResponse = JsonConvert.DeserializeObject<PokemonApiResponse>(textoJsonRespuesta);
+                    if (apiResponse != null)
+                    {
+                        listadoDePokemons = apiResponse.Results;
+                    }
                 }
-
             }
-
-            catch (Exception ex)
-
+            catch (Exception)
             {
-
-                throw ex;
-
+                throw;
+            }
+            finally
+            {
+                mihttpClient.Dispose();
             }
 
             return listadoDePokemons;
-
         }
 
+        private static void AsignarIndiceBusqueda(int avance)
+        {
+            switch (avance)
+            {
+                case 1:
+                    if (IndicePokemon + 20 <= 1300)
+                    {
+                        IndicePokemon += 20;
+                    }
+                    break;
+                case -1:
+                    if (IndicePokemon - 20 >= 0)
+                    {
+                        IndicePokemon = IndicePokemon - 20;
+                    }
+                    break;
+            }
+        }
     }
 }
 

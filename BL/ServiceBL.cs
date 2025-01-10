@@ -1,13 +1,22 @@
 ﻿using ENT;
 using ProyectosPokemon;
+using System.Collections.Generic;
 
 namespace BL
 {
     public class ServiceBL
     {
-        public static Task<List<Pokemon>> ObtenerListadoDePokemonsBL()
+        public static int ObtenerIndicePokemonBL()
         {
-            return Service.ObtenerListadoDePokemonsDAL();
+            return Service.ObtenerIndicePokemonDAL();
         }
+
+        public static async Task<List<Pokemon>> ObtenerListadoDePokemonsBL(int avance)
+        {
+            List<Pokemon> list = await Service.ObtenerListadoDePokemonsDAL(avance);
+            return list;
+        }
+
+
     }
 }

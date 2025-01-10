@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ENT\ENT.csproj" />
-    <ProjectReference Include="..\ProyectosPokemon\DAL.csproj" />
+    <ProjectReference Include="..\ENT\MODELS.csproj" />
+    <ProjectReference Include="..\ProyectosPokemon\DTO.csproj" />
   </ItemGroup>
 
 </Project>

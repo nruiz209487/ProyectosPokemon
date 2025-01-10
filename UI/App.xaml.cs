@@ -6,8 +6,6 @@
         {
             MainPage = new NavigationPage(new MainPage());
             InitializeComponent();
-
-
         }
     }
 }

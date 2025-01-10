@@ -64,7 +64,7 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\BL\BL.csproj" />
-	  <ProjectReference Include="..\ENT\ENT.csproj" />
+	  <ProjectReference Include="..\ENT\MODELS.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

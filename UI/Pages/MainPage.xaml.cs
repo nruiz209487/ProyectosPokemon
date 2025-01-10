@@ -5,7 +5,7 @@ namespace UI
 {
     public partial class MainPage : ContentPage
     {
-        MainPageVM objVm;
+        MainPageVM? objVm;
 
         public MainPage()
         {
@@ -22,5 +22,4 @@ namespace UI
         }
 
     }
-
 }
