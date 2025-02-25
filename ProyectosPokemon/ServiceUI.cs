@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ProyectosPokemon
 {
-    public class Service
+    public class ServiceUI
     {
         private const string URL = "https://pokeapi.co/api/v2/pokemon";
         private static int IndicePokemon { get; set; } = 0;

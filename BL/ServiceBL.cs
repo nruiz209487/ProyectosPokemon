@@ -8,12 +8,12 @@ namespace BL
     {
         public static int ObtenerIndicePokemonBL()
         {
-            return Service.ObtenerIndicePokemonDAL();
+            return ServiceUI.ObtenerIndicePokemonDAL();
         }
 
         public static async Task<List<Pokemon>> ObtenerListadoDePokemonsBL(int avance)
         {
-            List<Pokemon> list = await Service.ObtenerListadoDePokemonsDAL(avance);
+            List<Pokemon> list = await ServiceUI.ObtenerListadoDePokemonsDAL(avance);
             return list;
         }
 

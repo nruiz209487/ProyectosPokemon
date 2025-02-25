@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MODELS", "ENT\MODELS.csproj
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{FD90037B-DA97-4073-868F-822FFF682104}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdivnaElPokemon", "AdivnaElPokemon\AdivnaElPokemon.csproj", "{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,12 @@ Global
 		{FD90037B-DA97-4073-868F-822FFF682104}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FD90037B-DA97-4073-868F-822FFF682104}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FD90037B-DA97-4073-868F-822FFF682104}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
