@@ -6,7 +6,7 @@ namespace Server.Hubs
     {
         public async Task SendAcierto(int acierto)
         {
-            await Clients.All.SendAsync("ReceiveAcierto", acierto);
+            await Clients.Others.SendAsync("ReceiveAcierto", acierto);
         }
     }
 }

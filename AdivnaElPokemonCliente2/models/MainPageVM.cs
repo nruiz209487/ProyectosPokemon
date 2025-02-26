@@ -111,7 +111,7 @@ namespace AdivnaElPokemon.models
         }
         private async void enviarContadorDeAciertos()
         {
-            await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
+              await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
         }
 
 

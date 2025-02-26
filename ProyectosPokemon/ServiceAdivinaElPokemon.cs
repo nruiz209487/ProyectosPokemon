@@ -12,9 +12,9 @@ namespace DTO
     public class ServiceAdivinaElPokemon
     {
         private static Random rand = new Random();
-        public static async Task<List<PokemonCompleto>> ObtenerListadoDePokemonsDTO(int cantidad)
+        public static async Task<List<Pokemon>> ObtenerListadoDePokemonsDTO(int cantidad)
         {
-            List<PokemonCompleto> listado = new List<PokemonCompleto>();
+            List<Pokemon> listado = new List<Pokemon>();
 
             List<int> lista = new List<int>();
             for (int i = 0; i < cantidad; i++)
@@ -29,7 +29,7 @@ namespace DTO
                     }
 
                 }
-                PokemonCompleto? apiResponse;
+                Pokemon? apiResponse;
                 Uri miUri = new Uri($"https://pokeapi.co/api/v2/pokemon/{inidcePokemon}");
                 HttpClient mihttpClient = new HttpClient();
 
@@ -40,12 +40,11 @@ namespace DTO
                     if (miCodigoRespuesta.IsSuccessStatusCode)
                     {
                         string textoJsonRespuesta = await miCodigoRespuesta.Content.ReadAsStringAsync();
-                        apiResponse = JsonConvert.DeserializeObject<PokemonCompleto>(textoJsonRespuesta);
+                        apiResponse = JsonConvert.DeserializeObject<Pokemon>(textoJsonRespuesta);
                         if (apiResponse != null)
                         {
                             listado.Add(apiResponse);
                         }
-
                     }
                 }
                 catch (Exception)
