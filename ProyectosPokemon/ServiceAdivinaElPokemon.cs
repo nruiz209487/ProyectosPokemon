@@ -16,9 +16,19 @@ namespace DTO
         {
             List<PokemonCompleto> listado = new List<PokemonCompleto>();
 
+            List<int> lista = new List<int>();
             for (int i = 0; i < cantidad; i++)
             {
-                int inidcePokemon = rand.Next(1, 1000);
+                int inidcePokemon = rand.Next(1, 100);
+                if (!lista.Contains(inidcePokemon)) { lista.Add(inidcePokemon); }
+                else
+                {
+                    while (lista.Contains(inidcePokemon))
+                    {
+                        inidcePokemon = rand.Next(1, 1025);
+                    }
+
+                }
                 PokemonCompleto? apiResponse;
                 Uri miUri = new Uri($"https://pokeapi.co/api/v2/pokemon/{inidcePokemon}");
                 HttpClient mihttpClient = new HttpClient();

@@ -1,4 +1,6 @@
-﻿using MODELS;
+﻿
+using Microsoft.AspNetCore.SignalR.Client;
+using MODELS;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -11,6 +13,7 @@ namespace AdivnaElPokemon.models
 {
     public class MainPageVM : INotifyPropertyChanged
     {
+        private HubConnection _connection;
         private Random random = new Random();
         public int NumColumnas { get; set; }
 
@@ -76,10 +79,32 @@ namespace AdivnaElPokemon.models
 
         public MainPageVM()
         {
+
+            _connection = new HubConnectionBuilder()
+                .WithUrl("https://localhost:7278/gameHub")
+                .WithAutomaticReconnect() // Habilita reconexión automática
+                .Build();
+
+            ConnectToServer();
+            _connection.On<int>("ReceiveAcierto", (acierto) =>
+            {
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    int num = acierto;
+                });
+            });
+
             pedirPokemon();
+
         }
 
-
+        private async void ConnectToServer()
+        {
+           
+                await _connection.StartAsync();
+            
+   
+        }
         private async void pedirPokemon(int numeroDePokemon = 15)
         {
             NumColumnas = numeroDePokemon / 3;
