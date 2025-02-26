@@ -13,6 +13,7 @@ namespace AdivnaElPokemon.models
     public class MainPageVM : INotifyPropertyChanged
     {
         private Random random = new Random();
+        public int NumColumnas { get; set; }
 
         public ObservableCollection<PokemonCompleto> _ListadoDePokemons = new ObservableCollection<PokemonCompleto>();
         public ObservableCollection<PokemonCompleto> ListadoDePokemons
@@ -80,8 +81,9 @@ namespace AdivnaElPokemon.models
         }
 
 
-        private async void pedirPokemon(int numeroDePokemon = 4)
+        private async void pedirPokemon(int numeroDePokemon = 15)
         {
+            NumColumnas = numeroDePokemon / 3;
             int idAleatorio = random.Next(0, numeroDePokemon);
             List<PokemonCompleto> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
             ListadoDePokemons = new ObservableCollection<PokemonCompleto>(list);
@@ -96,6 +98,7 @@ namespace AdivnaElPokemon.models
                 {
                     NumeroDeAciertos++;
                 }
+                else { NumeroDeAciertos = 0; }
 
                 pedirPokemon();
                 _pokemonSeleccionado = null;

@@ -19,7 +19,7 @@ namespace DTO
 
             for (int i = 0; i < cantidad; i++)
             {
-                int inidcePokemon = rand.Next(1, 200);
+                int inidcePokemon = rand.Next(1, 1000);
                 PokemonCompleto? apiResponse;
                 Uri miUri = new Uri($"https://pokeapi.co/api/v2/pokemon/{inidcePokemon}");
                 HttpClient mihttpClient = new HttpClient();
