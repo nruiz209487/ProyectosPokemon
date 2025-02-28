@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Timers;
 
-namespace AdivnaElPokemon.models
+namespace AdivnaElPokemon.models.MainPage
 {
     public class Contador : INotifyPropertyChanged
     {

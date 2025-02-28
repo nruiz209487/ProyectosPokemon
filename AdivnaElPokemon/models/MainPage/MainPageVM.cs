@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.SignalR.Client;
+﻿using Microsoft.AspNetCore.SignalR.Client;
 using MODELS;
 using System;
 using System.Collections.Generic;
@@ -9,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AdivnaElPokemon.models
+namespace AdivnaElPokemon.models.MainPage
 {
     public class MainPageVM : INotifyPropertyChanged
     {
@@ -111,7 +110,7 @@ namespace AdivnaElPokemon.models
         }
         private async void enviarContadorDeAciertos()
         {
-              await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
+            await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
         }
 
 

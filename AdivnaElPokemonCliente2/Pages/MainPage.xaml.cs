@@ -1,7 +1,5 @@
-﻿using System;
-using System.Timers; // Importar para usar System.Timers.Timer
-using AdivnaElPokemon.models;
-using Microsoft.Maui.Dispatching;
+﻿using AdivnaElPokemon.models.MainPage;
+
 
 namespace AdivnaElPokemon
 {
