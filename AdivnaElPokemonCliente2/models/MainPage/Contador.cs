@@ -10,6 +10,8 @@ namespace AdivnaElPokemon.models.MainPage
 {
     public class Contador : INotifyPropertyChanged
     {
+        private bool _timpoAgotado = true;
+        public bool TimpoAgotado { get { return _timpoAgotado; } set { _timpoAgotado = value; OnPropertyChanged(nameof(TimpoAgotado)); } }
         private int _seconds = 120;
         public int Seconds { get { return _seconds; } set { _seconds = value; OnPropertyChanged(nameof(Seconds)); } }
         private System.Timers.Timer _timer;
@@ -29,6 +31,7 @@ namespace AdivnaElPokemon.models.MainPage
             Seconds--;
             if (_seconds == 0)
             {
+                TimpoAgotado = false;
                 _timer.Stop();
             }
         }

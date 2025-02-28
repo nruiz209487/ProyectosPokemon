@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR.Client;
+﻿using AdivnaElPokemon.Pages;
+using Microsoft.AspNetCore.SignalR.Client;
 using MODELS;
 using System;
 using System.Collections.Generic;
@@ -7,6 +8,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace AdivnaElPokemon.models.MainPage
 {
@@ -16,6 +18,7 @@ namespace AdivnaElPokemon.models.MainPage
         private HubConnection _connection;
         private Random random = new Random();
         public int NumColumnas { get; set; }
+
 
         public ObservableCollection<Pokemon> _ListadoDePokemons = new ObservableCollection<Pokemon>();
         public ObservableCollection<Pokemon> ListadoDePokemons
@@ -74,10 +77,10 @@ namespace AdivnaElPokemon.models.MainPage
                 }
             }
         }
-
+        public ICommand buscarPartidaCommand { get; }
         public MainPageVM()
         {
-
+            buscarPartidaCommand = new Command(buscarPartida);
             _connection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:7211/gameHub")
                 .WithAutomaticReconnect()
@@ -94,7 +97,10 @@ namespace AdivnaElPokemon.models.MainPage
             pedirPokemon();
 
         }
-
+        private async void buscarPartida()
+        {
+            App.Current.MainPage.Navigation.PushAsync(new LobbyPage());
+        }
         private async void conexionServidor()
         {
             await _connection.StartAsync();

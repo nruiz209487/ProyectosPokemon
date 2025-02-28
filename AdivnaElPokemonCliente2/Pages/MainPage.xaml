@@ -8,7 +8,7 @@
             Padding="30,0"
             Spacing="25" 
             Grid.Row="2"
-            Grid.Column="1">
+            Grid.Column="1" IsVisible="{Binding Contador.TimpoAgotado}">
 
             <Label  Text="Segundos Restantes:"  FontSize="48"  HorizontalOptions="Center"/>
             <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="500">
@@ -36,6 +36,10 @@
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
+
+            <Button Text="Volver a buscar Partida" Command="{Binding buscarPartidaCommand}" IsEnabled="{Binding BotonPulsado}" IsVisible="{Binding Contador.TimpoAgotado}"/>
+
+
         </VerticalStackLayout>
     </ScrollView>
 
