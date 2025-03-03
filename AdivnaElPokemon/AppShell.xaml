@@ -3,13 +3,18 @@
     x:Class="AdivnaElPokemon.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:AdivnaElPokemon"
+    xmlns:vm="clr-namespace:AdivnaElPokemon.Pages"
     Shell.FlyoutBehavior="Disabled"
     Title="AdivnaElPokemon">
 
+
     <ShellContent
-        Title="Home"
-        ContentTemplate="{DataTemplate local:MainPage}"
-        Route="MainPage" />
+        Title="LobbyPage"
+        ContentTemplate="{DataTemplate vm:LobbyPage}"
+        Route="LobbyPage" />
+    <ShellContent
+        Title="GamePage"
+        ContentTemplate="{DataTemplate vm:GamePage}"
+        Route="GamePage" />
 
 </Shell>

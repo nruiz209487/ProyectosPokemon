@@ -1,4 +1,5 @@
 ﻿using AdivnaElPokemon;
+using AdivnaElPokemon.Pages;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -29,7 +30,8 @@ public class LobbyVM : INotifyPropertyChanged
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                App.Current.MainPage.Navigation.PushAsync(new MainPage());
+                BotonPulsado = true;
+                App.Current.MainPage.Navigation.PushAsync(new GamePage());
             });
         });
 

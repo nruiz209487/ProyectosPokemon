@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AdivnaElPokemon.Pages;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -10,9 +11,7 @@ namespace AdivnaElPokemon.models.MainPage
 {
     public class Contador : INotifyPropertyChanged
     {
-        private bool _timpoAgotado = true;
-        public bool TimpoAgotado { get { return _timpoAgotado; } set { _timpoAgotado = value; OnPropertyChanged(nameof(TimpoAgotado)); } }
-        private int _seconds = 120;
+        private int _seconds = 10;
         public int Seconds { get { return _seconds; } set { _seconds = value; OnPropertyChanged(nameof(Seconds)); } }
         private System.Timers.Timer _timer;
 
@@ -26,13 +25,18 @@ namespace AdivnaElPokemon.models.MainPage
             _timer.Start();
         }
 
-        private void OnTimerTick(object sender, ElapsedEventArgs e)
+        private async void OnTimerTick(object sender, ElapsedEventArgs e)
         {
             Seconds--;
             if (_seconds == 0)
             {
-                TimpoAgotado = false;
+
                 _timer.Stop();
+                MainThread.BeginInvokeOnMainThread(async () =>
+                {
+                    await Shell.Current.GoToAsync("//LobbyPage");
+                });
+
             }
         }
 

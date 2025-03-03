@@ -77,10 +77,10 @@ namespace AdivnaElPokemon.models.MainPage
                 }
             }
         }
-        public ICommand buscarPartidaCommand { get; }
+
         public MainPageVM()
         {
-            buscarPartidaCommand = new Command(buscarPartida);
+
             _connection = new HubConnectionBuilder()
                 .WithUrl("https://localhost:7211/gameHub")
                 .WithAutomaticReconnect()
@@ -97,10 +97,7 @@ namespace AdivnaElPokemon.models.MainPage
             pedirPokemon();
 
         }
-        private async void buscarPartida()
-        {
-            App.Current.MainPage.Navigation.PushAsync(new LobbyPage());
-        }
+
         private async void conexionServidor()
         {
             await _connection.StartAsync();

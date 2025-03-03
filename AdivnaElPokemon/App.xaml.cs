@@ -7,7 +7,7 @@ namespace AdivnaElPokemon
         public App()
         {
             InitializeComponent();
-            MainPage = new NavigationPage(new LobbyPage());
+            MainPage = new AppShell();
         }
     }
 }
