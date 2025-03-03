@@ -9,11 +9,10 @@
 
 
     <ShellContent
-        Title="LobbyPage"
         ContentTemplate="{DataTemplate vm:LobbyPage}"
         Route="LobbyPage" />
     <ShellContent
-        Title="GamePage"
+
         ContentTemplate="{DataTemplate vm:GamePage}"
         Route="GamePage" />
 
