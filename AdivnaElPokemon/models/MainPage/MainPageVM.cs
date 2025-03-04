@@ -50,13 +50,12 @@ namespace AdivnaElPokemon.models.MainPage
             get
             {
                 return NumeroDeAciertos > NumeroDeAciertosEnemigo
-                        ? "¡Ganaste!"
+                        ? "¡Has Ganado!"
                         : (NumeroDeAciertos < NumeroDeAciertosEnemigo
-                            ? "¡Perdiste!"
+                            ? "¡Has Perdido!"
                             : "¡Empate!");
             }
         }
-
         private Random random = new Random();
         public int NumColumnas { get; set; }
         public ObservableCollection<Pokemon> _ListadoDePokemons = new ObservableCollection<Pokemon>();
@@ -75,7 +74,6 @@ namespace AdivnaElPokemon.models.MainPage
                 OnPropertyChanged(nameof(ListadoDePokemons));
             }
         }
-
         public int _numeroDeAciertos = 0;
         public int NumeroDeAciertos { get { return _numeroDeAciertos; } set { _numeroDeAciertos = value; OnPropertyChanged(nameof(NumeroDeAciertos)); } }
         public int _numeroDeAciertosEnemigo = 0;
@@ -98,7 +96,6 @@ namespace AdivnaElPokemon.models.MainPage
             }
         }
         public Pokemon? _pokemonRespuesta;
-
         public Pokemon? PokemonRespuesta
         {
             get
@@ -115,18 +112,14 @@ namespace AdivnaElPokemon.models.MainPage
                 }
             }
         }
-
         private async void pedirPokemon(int numeroDePokemon = 12)
         {
             NumColumnas = numeroDePokemon / 3;
             List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
-            int idAleatorio = random.Next(0, numeroDePokemon);
+            int idAleatorio = random.Next(0, numeroDePokemon-1);
             ListadoDePokemons = new ObservableCollection<Pokemon>(list);
             PokemonRespuesta = ListadoDePokemons[idAleatorio];
         }
-
-
-
         private void comprobarRespuesta()
         {
             if (_pokemonSeleccionado != null && PokemonRespuesta != null)
@@ -142,8 +135,6 @@ namespace AdivnaElPokemon.models.MainPage
             }
         }
         #endregion
-
-
         #region implementacion de la clase 
         public MainPageVM()
         {
@@ -178,8 +169,8 @@ namespace AdivnaElPokemon.models.MainPage
         {
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                await App.Current.MainPage.DisplayAlert("¡Se acabó el tiempo!", ResultadoPartida, "OK");
                 await _connection.InvokeAsync("SalirLobby");
+                await App.Current.MainPage.DisplayAlert("¡Se acabó el tiempo!", ResultadoPartida, "OK");
                 await Shell.Current.GoToAsync("//LobbyPage");
             });
         }
