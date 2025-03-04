@@ -18,10 +18,15 @@ namespace Server.Hubs
             if (jugadoresListos == totalJugadoresRequeridos)
             {
                 await Clients.All.SendAsync("ReceiveIniciarJuego");
-                jugadoresListos = 0;
-
             }
-   
+
         }
+
+        public async Task SalirLobby()
+        {
+            jugadoresListos--;
+        }
+
+
     }
 }

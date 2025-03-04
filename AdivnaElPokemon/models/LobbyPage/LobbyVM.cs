@@ -8,17 +8,24 @@ public class LobbyVM : INotifyPropertyChanged
 {
     private HubConnection _connection;
     private bool _botonPulsado = true;
-    public bool BotonPulsado
+    public bool BotonBusquedaPulsado
     {
         get { return _botonPulsado; }
         set
         {
             _botonPulsado = value;
-            OnPropertyChanged(nameof(BotonPulsado));
+            OnPropertyChanged(nameof(BotonBusquedaPulsado));
+            OnPropertyChanged(nameof(BotonColaPulsado));
         }
     }
-    public ICommand buscarPartidaCommand { get; }
 
+    public bool BotonColaPulsado
+    {
+        get { return !_botonPulsado; }
+
+    }
+    public ICommand buscarPartidaCommand { get; }
+    public ICommand abandonarColaCommand { get; }
     public LobbyVM()
     {
         _connection = new HubConnectionBuilder()
@@ -30,24 +37,31 @@ public class LobbyVM : INotifyPropertyChanged
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                BotonPulsado = true;
+                BotonBusquedaPulsado = true;
                 App.Current.MainPage.Navigation.PushAsync(new GamePage());
             });
         });
 
 
         conexionServidor();
+        abandonarColaCommand = new Command(abandonarCola);
         buscarPartidaCommand = new Command(buscarPartida);
     }
+
+
 
     private async void conexionServidor()
     {
         await _connection.StartAsync();
     }
-
+    private async void abandonarCola()
+    {
+        BotonBusquedaPulsado = true;
+        await _connection.InvokeAsync("SalirLobby");
+    }
     private async void buscarPartida()
     {
-        BotonPulsado = false;
+        BotonBusquedaPulsado = false;
         await _connection.InvokeAsync("SendEntarLobby");
     }
     public event PropertyChangedEventHandler? PropertyChanged;

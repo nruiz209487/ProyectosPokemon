@@ -10,39 +10,59 @@
             Grid.Row="2"
             Grid.Column="1" >
 
- 
 
-                <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="20" Padding="10">
-                    <Label Text="{Binding NumeroDeAciertos, StringFormat='Aciertos: {0}'}"
+
+            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="20" Padding="10">
+                <Label Text="{Binding NumeroDeAciertos, StringFormat='Aciertos: {0}'}"
                            FontSize="20"
                            TextColor="Green"
                            HorizontalOptions="StartAndExpand"
                            VerticalOptions="Center"
                            />
-                    <Label Text="{Binding Contador.Seconds}"
+                <Label Text="{Binding Seconds}"
                            FontSize="48"
                            TextColor="Black"
                            HorizontalOptions="CenterAndExpand"
                            VerticalOptions="Center"
 />
-                    <Label Text="{Binding NumeroDeAciertosEnemigo, StringFormat='Aciertos E: {0}'}"
+                <Label Text="{Binding NumeroDeAciertosEnemigo, StringFormat='Aciertos E: {0}'}"
                            FontSize="20"
                            TextColor="Red"
                            HorizontalOptions="EndAndExpand"
                            VerticalOptions="Center"/>
-                </HorizontalStackLayout>
-       
+            </HorizontalStackLayout>
+
 
             <Label TextColor="Black" Text="{Binding PokemonRespuesta.name}" FontSize="Header"  HorizontalOptions="Center"></Label>
             <CollectionView ItemsSource="{Binding ListadoDePokemons}"
-                SelectedItem="{Binding PokemonSeleccionado, Mode=TwoWay}"
-                SelectionMode="Single">
+               SelectedItem="{Binding PokemonSeleccionado, Mode=TwoWay}"
+               SelectionMode="Single">
                 <CollectionView.ItemsLayout>
                     <GridItemsLayout Orientation="Vertical" Span="{Binding NumColumnas}" />
                 </CollectionView.ItemsLayout>
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="10">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Silver"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="Normal">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Transparent"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                    <VisualState Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="Gainsboro"/>
+                                        </VisualState.Setters>
+
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                             <Image Source="{Binding sprites.front_default}" 
                        MaximumHeightRequest="200" 
                        MaximumWidthRequest="200" 

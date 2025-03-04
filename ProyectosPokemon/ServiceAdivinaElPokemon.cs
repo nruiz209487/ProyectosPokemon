@@ -19,7 +19,7 @@ namespace DTO
             List<int> lista = new List<int>();
             for (int i = 0; i < cantidad; i++)
             {
-                int inidcePokemon = rand.Next(1, 100);
+                int inidcePokemon = rand.Next(1, 1050);
                 if (!lista.Contains(inidcePokemon)) { lista.Add(inidcePokemon); }
                 else
                 {
