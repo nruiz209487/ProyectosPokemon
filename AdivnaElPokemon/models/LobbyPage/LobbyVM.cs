@@ -1,4 +1,5 @@
 ﻿using AdivnaElPokemon;
+using AdivnaElPokemon.models.utils;
 using AdivnaElPokemon.Pages;
 using Microsoft.AspNetCore.SignalR.Client;
 using System.ComponentModel;
@@ -14,18 +15,18 @@ public class LobbyVM : INotifyPropertyChanged
         set
         {
             _botonPulsado = value;
-            OnPropertyChanged(nameof(BotonBusquedaPulsado));
-            OnPropertyChanged(nameof(BotonColaPulsado));
+            buscarPartidaCommand.RaiseCanExecuteChanged();
+            abandonarColaCommand.RaiseCanExecuteChanged();
         }
     }
 
-    public bool BotonColaPulsado
+    public bool BotonSalirColaPulsado
     {
         get { return !_botonPulsado; }
 
     }
-    public ICommand buscarPartidaCommand { get; }
-    public ICommand abandonarColaCommand { get; }
+    public DelegateCommand buscarPartidaCommand { get; }
+    public DelegateCommand abandonarColaCommand { get; }
     public LobbyVM()
     {
         _connection = new HubConnectionBuilder()
@@ -44,8 +45,8 @@ public class LobbyVM : INotifyPropertyChanged
 
 
         conexionServidor();
-        abandonarColaCommand = new Command(abandonarCola);
-        buscarPartidaCommand = new Command(buscarPartida);
+        abandonarColaCommand = new DelegateCommand(abandonarCola, abandonarColaCommandActivo);
+        buscarPartidaCommand = new DelegateCommand(buscarPartida, buscarPartidaCommandActivo);
     }
 
 
@@ -53,6 +54,15 @@ public class LobbyVM : INotifyPropertyChanged
     private async void conexionServidor()
     {
         await _connection.StartAsync();
+    }
+    private bool buscarPartidaCommandActivo()
+    {
+
+        return BotonBusquedaPulsado;
+    }
+    private bool abandonarColaCommandActivo() {
+
+        return BotonSalirColaPulsado;
     }
     private async void abandonarCola()
     {

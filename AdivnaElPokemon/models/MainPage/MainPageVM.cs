@@ -112,11 +112,11 @@ namespace AdivnaElPokemon.models.MainPage
                 }
             }
         }
-        private async void pedirPokemon(int numeroDePokemon = 12)
+        public async void pedirPokemon(int numeroDePokemon = 12)
         {
             NumColumnas = numeroDePokemon / 3;
             List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
-            int idAleatorio = random.Next(0, numeroDePokemon-1);
+            int idAleatorio = random.Next(0, numeroDePokemon - 1);
             ListadoDePokemons = new ObservableCollection<Pokemon>(list);
             PokemonRespuesta = ListadoDePokemons[idAleatorio];
         }

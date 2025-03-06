@@ -6,7 +6,7 @@
 
     <VerticalStackLayout>
         <Image Source="https://www.icegif.com/wp-content/uploads/2023/02/icegif-1061.gif" MaximumHeightRequest="200" MaximumWidthRequest="400"></Image>
-        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Buscar Partida" Command="{Binding buscarPartidaCommand}" IsEnabled="{Binding BotonBusquedaPulsado}" MaximumWidthRequest="200" BorderColor="Black"/>
-        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Salir cola" Command="{Binding abandonarColaCommand}" IsEnabled="{Binding BotonColaPulsado}" MaximumWidthRequest="200" BorderColor="Black"/>
+        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Buscar Partida" Command="{Binding buscarPartidaCommand}" MaximumWidthRequest="200" BorderColor="Black"/>
+        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Salir cola" Command="{Binding abandonarColaCommand}"  MaximumWidthRequest="200" BorderColor="Black"/>
     </VerticalStackLayout>
 </ContentPage>

@@ -1,14 +1,19 @@
+
+
 namespace AdivnaElPokemon.Pages;
 
 public partial class LobbyPage : ContentPage
 {
-    LobbyVM lobbyVM;
+    LobbyVM _viewModel;
     public LobbyPage()
     {
 
-        lobbyVM = new LobbyVM();
-        BindingContext = lobbyVM;
+        _viewModel = new LobbyVM();
+        BindingContext = _viewModel;
         InitializeComponent();
     }
-
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+    }
 }
