@@ -1,65 +1,79 @@
-﻿
-using MODELS;
+﻿using MODELS;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace DTO
 {
     public class ServiceAdivinaElPokemon
     {
-        private static Random rand = new Random();
+        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly Random _rand = new Random();
+        private const int MaxPokemonId = 1025;
+
         public static async Task<List<Pokemon>> ObtenerListadoDePokemonsDTO(int cantidad)
         {
-            List<Pokemon> listado = new List<Pokemon>();
-
-            List<int> lista = new List<int>();
-            for (int i = 0; i < cantidad; i++)
-            {
-                int inidcePokemon = rand.Next(1, 1050);
-                if (!lista.Contains(inidcePokemon)) { lista.Add(inidcePokemon); }
-                else
-                {
-                    while (lista.Contains(inidcePokemon))
-                    {
-                        inidcePokemon = rand.Next(1, 1025);
-                    }
-
-                }
-                Pokemon? apiResponse;
-                Uri miUri = new Uri($"https://pokeapi.co/api/v2/pokemon/{inidcePokemon}");
-                HttpClient mihttpClient = new HttpClient();
-
-                try
-                {
-                    HttpResponseMessage miCodigoRespuesta = await mihttpClient.GetAsync(miUri);
-
-                    if (miCodigoRespuesta.IsSuccessStatusCode)
-                    {
-                        string textoJsonRespuesta = await miCodigoRespuesta.Content.ReadAsStringAsync();
-                        apiResponse = JsonConvert.DeserializeObject<Pokemon>(textoJsonRespuesta);
-                        if (apiResponse != null)
-                        {
-                            listado.Add(apiResponse);
-                        }
-                    }
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
-                finally
-                {
-                    mihttpClient.Dispose();
-                }
-
-            }
-            return listado;
+            var indices = GenerateRandomIndices(cantidad);
+            return await FetchPokemonInParallel(indices);
         }
 
 
+        private static List<int> GenerateRandomIndices(int cantidad)
+        {
+            var indices = Enumerable.Range(1, MaxPokemonId).ToList();
+            Shuffle(indices);
+            return indices.Take(cantidad).ToList();
+        }
+
+        private static void Shuffle<T>(IList<T> list)
+        {
+            int n = list.Count;
+            while (n > 1)
+            {
+                n--;
+                int k = _rand.Next(n + 1);
+                (list[n], list[k]) = (list[k], list[n]);
+            }
+        }
+
+        private static async Task<List<Pokemon>> FetchPokemonInParallel(List<int> indices)
+        {
+            var semaphore = new SemaphoreSlim(10); // Limit concurrent requests
+            var tasks = indices.Select(async index =>
+            {
+                await semaphore.WaitAsync();
+                try
+                {
+                    return await FetchPokemon(index);
+                }
+                finally
+                {
+                    semaphore.Release();
+                }
+            });
+
+            var results = await Task.WhenAll(tasks);
+            return results.Where(p => p != null).ToList();
+        }
+
+        private static async Task<Pokemon> FetchPokemon(int index)
+        {
+            try
+            {
+                var response = await _httpClient.GetAsync($"https://pokeapi.co/api/v2/pokemon/{index}");
+                response.EnsureSuccessStatusCode();
+
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Pokemon>(json);
+            }
+            catch (HttpRequestException ex)
+            {
+                Console.WriteLine($"Error fetching Pokémon {index}: {ex.Message}");
+                return null;
+            }
+        }
     }
 }

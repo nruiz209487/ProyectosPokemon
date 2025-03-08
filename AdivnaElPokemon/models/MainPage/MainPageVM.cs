@@ -1,4 +1,5 @@
-﻿using AdivnaElPokemon.Pages;
+﻿using AdivnaElPokemon.models.utils;
+using AdivnaElPokemon.Pages;
 using Microsoft.AspNetCore.SignalR.Client;
 using MODELS;
 using System;
@@ -13,12 +14,22 @@ using System.Windows.Input;
 
 namespace AdivnaElPokemon.models.MainPage
 {
-    public class MainPageVM : INotifyPropertyChanged
+    public class MainPageVM : ClsINotify
     {
         #region contador
-        private int _seconds = 10;
-        public int Seconds { get { return _seconds; } set { _seconds = value; OnPropertyChanged(nameof(Seconds)); } }
+        private int _seconds = 120;
+        public int Seconds { get { return _seconds; } set { _seconds = value; OnPropertyChanged(nameof(SegundosVista)); } }
         private System.Timers.Timer _timer;
+        public string SegundosVista
+        {
+            get
+            {
+                int minutes = Seconds / 60;
+                int seconds = Seconds % 60;
+                return $"{minutes:D2}:{seconds:D2}";
+            }
+        }
+
         private async void OnTimerTick(object sender, ElapsedEventArgs e)
         {
             Seconds--;
@@ -45,6 +56,8 @@ namespace AdivnaElPokemon.models.MainPage
         #endregion
 
         #region JuegosPokemon
+        private int _comodinesRestantes = 5;
+        public int ComodinesRestantes { get { return _comodinesRestantes; } set { _comodinesRestantes = value; usarComodinCommand.RaiseCanExecuteChanged(); OnPropertyChanged(nameof(ComodinesRestantes)); } }
         private string ResultadoPartida
         {
             get
@@ -91,10 +104,26 @@ namespace AdivnaElPokemon.models.MainPage
                 if (value != null)
                 {
                     _pokemonSeleccionado = value;
+                    SelecionarPokemonDisponible = false;
                     comprobarRespuesta();
                 }
             }
         }
+        public bool _selecionarPokemonDisponible;
+        public bool SelecionarPokemonDisponible
+        {
+            get
+            {
+                return _selecionarPokemonDisponible;
+            }
+            set
+            {
+
+                _selecionarPokemonDisponible = value;
+                OnPropertyChanged(nameof(SelecionarPokemonDisponible));
+            }
+        }
+
         public Pokemon? _pokemonRespuesta;
         public Pokemon? PokemonRespuesta
         {
@@ -112,14 +141,38 @@ namespace AdivnaElPokemon.models.MainPage
                 }
             }
         }
-        public async void pedirPokemon(int numeroDePokemon = 12)
+
+        public async void pedirPokemon()
         {
+            int numeroDePokemon = 15;
             NumColumnas = numeroDePokemon / 3;
             List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
             int idAleatorio = random.Next(0, numeroDePokemon - 1);
             ListadoDePokemons = new ObservableCollection<Pokemon>(list);
             PokemonRespuesta = ListadoDePokemons[idAleatorio];
+            SelecionarPokemonDisponible = true;
         }
+        public async void pedirPokemonComodin()
+        {
+            SelecionarPokemonDisponible = false; //lo tengo que poner por que como no tiene que hacerla comprobacion salta directamente al metodo y si la api va lenta puede selecionar muchos al mismo tiempo
+            int numeroDePokemon = 15;
+            NumColumnas = numeroDePokemon / 3;
+            List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
+            int idAleatorio = random.Next(0, numeroDePokemon - 1);
+            ListadoDePokemons = new ObservableCollection<Pokemon>(list);
+            PokemonRespuesta = ListadoDePokemons[idAleatorio];
+            SelecionarPokemonDisponible = true;
+            ComodinesRestantes--;
+        }
+
+        private bool usarComodinCommandActivo()
+        {
+            bool res = true;
+
+            if (_comodinesRestantes <= 0) { res = false; }
+            return res;
+        }
+
         private void comprobarRespuesta()
         {
             if (_pokemonSeleccionado != null && PokemonRespuesta != null)
@@ -134,6 +187,7 @@ namespace AdivnaElPokemon.models.MainPage
                 _pokemonSeleccionado = null;
             }
         }
+        public DelegateCommand usarComodinCommand { get; }
         #endregion
         #region implementacion de la clase 
         public MainPageVM()
@@ -155,7 +209,7 @@ namespace AdivnaElPokemon.models.MainPage
 
             //juego
             pedirPokemon();
-
+            usarComodinCommand = new DelegateCommand(pedirPokemonComodin, usarComodinCommandActivo);
             //contador 
             _timer = new System.Timers.Timer(1000);
             _timer.Elapsed += OnTimerTick;
@@ -175,11 +229,6 @@ namespace AdivnaElPokemon.models.MainPage
             });
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
         #endregion
     }
 }

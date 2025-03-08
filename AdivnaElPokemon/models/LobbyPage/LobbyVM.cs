@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using System.ComponentModel;
 using System.Windows.Input;
 
-public class LobbyVM : INotifyPropertyChanged
+public class LobbyVM : ClsINotify
 {
     private HubConnection _connection;
     private bool _botonPulsado = true;
@@ -17,12 +17,14 @@ public class LobbyVM : INotifyPropertyChanged
             _botonPulsado = value;
             buscarPartidaCommand.RaiseCanExecuteChanged();
             abandonarColaCommand.RaiseCanExecuteChanged();
+            OnPropertyChanged(nameof(BotonSalirColaPulsado));
         }
     }
 
     public bool BotonSalirColaPulsado
     {
         get { return !_botonPulsado; }
+
 
     }
     public DelegateCommand buscarPartidaCommand { get; }
@@ -60,7 +62,8 @@ public class LobbyVM : INotifyPropertyChanged
 
         return BotonBusquedaPulsado;
     }
-    private bool abandonarColaCommandActivo() {
+    private bool abandonarColaCommandActivo()
+    {
 
         return BotonSalirColaPulsado;
     }
@@ -73,10 +76,5 @@ public class LobbyVM : INotifyPropertyChanged
     {
         BotonBusquedaPulsado = false;
         await _connection.InvokeAsync("SendEntarLobby");
-    }
-    public event PropertyChangedEventHandler? PropertyChanged;
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

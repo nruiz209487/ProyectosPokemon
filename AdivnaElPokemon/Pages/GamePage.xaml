@@ -12,34 +12,91 @@
 
 
 
-            <HorizontalStackLayout HorizontalOptions="CenterAndExpand" Spacing="20" Padding="10">
-                <Label Text="{Binding NumeroDeAciertos, StringFormat='{0}'}"
-                           FontSize="48"
-                           TextColor="Green"
-                           HorizontalOptions="StartAndExpand"
-                           VerticalOptions="Center"
-                           />
-                <Label Text="{Binding Seconds}"
-                           FontSize="48"
-                           TextColor="Black"
-                           HorizontalOptions="CenterAndExpand"
-                           VerticalOptions="Center"
-/>
-                <Label Text="{Binding NumeroDeAciertosEnemigo, StringFormat='{0}'}"
-                           FontSize="48"
-                           TextColor="Red"
-                           HorizontalOptions="EndAndExpand"
-                           VerticalOptions="Center"/>
-            </HorizontalStackLayout>
+            <Grid ColumnDefinitions="*,Auto,*,Auto,*"
+                  HorizontalOptions="Center"
+                  VerticalOptions="Center"
+                  Padding="20"
+                  RowSpacing="0"
+                  ColumnSpacing="30">
 
+                <Frame Grid.Column="0"
+                       Padding="30,20"
+                       CornerRadius="20"
+                       BackgroundColor="#F0F0F0"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    <Label Text="{Binding NumeroDeAciertos}"
+                       FontSize="48"
+                       TextColor="Green"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+                </Frame>
 
+    
+                <BoxView Grid.Column="1"
+                         WidthRequest="3"
+                         HeightRequest="60"
+                         Color="LightGray"
+                         VerticalOptions="Center"/>
+
+                <Frame Grid.Column="2"
+                       Padding="30,20"
+                       CornerRadius="20"
+                       BackgroundColor="#F0F0F0"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    
+                    <Label Text="{Binding SegundosVista}"
+                       FontSize="48"
+                       TextColor="Black"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+                </Frame>
+                
+                <BoxView Grid.Column="3"
+                         WidthRequest="3"
+                         HeightRequest="60"
+                         Color="LightGray"
+                         VerticalOptions="Center"/>
+                
+                <Frame Grid.Column="4"
+                       Padding="30,20"
+                       CornerRadius="20"
+                       BackgroundColor="#F0F0F0"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center">
+                    
+                <Label Text="{Binding NumeroDeAciertosEnemigo}"
+                       FontSize="48"
+                       TextColor="Red"
+                       HorizontalOptions="Center"
+                       VerticalOptions="Center"/>
+                </Frame>
+            </Grid>
+
+            <Frame HorizontalOptions="Center" 
+                   CornerRadius="20" 
+                   Padding="0"
+                   BackgroundColor="#3D7DCA"
+                   HasShadow="True">
+                <Button Command="{Binding usarComodinCommand}" 
+                       Text="{Binding ComodinesRestantes, StringFormat='🔄 Comodines restantes: ({0})'}"
+                       TextColor="White"
+                       BackgroundColor="Transparent"
+                       FontAttributes="Bold"
+                       CornerRadius="20"
+                       Padding="20,10"/>
+            </Frame>
             <Label TextColor="Black" Text="{Binding PokemonRespuesta.name}" FontSize="Header"  HorizontalOptions="Center"></Label>
             <CollectionView ItemsSource="{Binding ListadoDePokemons}"
-               SelectedItem="{Binding PokemonSeleccionado, Mode=TwoWay}"
-               SelectionMode="Single">
+                            SelectedItem="{Binding PokemonSeleccionado, Mode=TwoWay}"
+                            SelectionMode="Single"
+                            IsEnabled="{Binding SelecionarPokemonDisponible}">
+                
                 <CollectionView.ItemsLayout>
-                    <GridItemsLayout Orientation="Vertical" Span="{Binding NumColumnas}" />
+                    <GridItemsLayout Orientation="Vertical" Span="{Binding NumColumnas}"/>
                 </CollectionView.ItemsLayout>
+                
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid Padding="10">
@@ -50,30 +107,31 @@
                                             <Setter Property="BackgroundColor" Value="Silver"/>
                                         </VisualState.Setters>
                                     </VisualState>
+                                    
                                     <VisualState Name="Normal">
                                         <VisualState.Setters>
                                             <Setter Property="BackgroundColor" Value="Transparent"/>
                                         </VisualState.Setters>
                                     </VisualState>
+                                    
                                     <VisualState Name="PointerOver">
                                         <VisualState.Setters>
                                             <Setter Property="BackgroundColor" Value="Gainsboro"/>
                                         </VisualState.Setters>
-
                                     </VisualState>
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
+                            
                             <Image Source="{Binding sprites.front_default}" 
-                       MaximumHeightRequest="200" 
-                       MaximumWidthRequest="200" 
-                       HorizontalOptions="Center" 
-                       VerticalOptions="Center"/>
+                                   MaximumHeightRequest="200" 
+                                   MaximumWidthRequest="200" 
+                                   HorizontalOptions="Center" 
+                                   VerticalOptions="Center"/>
+                            
                         </Grid>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
-
-
 
         </VerticalStackLayout>
     </ScrollView>

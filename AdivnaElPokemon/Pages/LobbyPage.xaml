@@ -2,11 +2,116 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="AdivnaElPokemon.Pages.LobbyPage"
-                    BackgroundColor="White">
+             BackgroundColor="#FFCC00"
+             Title="PokéMatch Lobby">
 
-    <VerticalStackLayout>
-        <Image Source="https://www.icegif.com/wp-content/uploads/2023/02/icegif-1061.gif" MaximumHeightRequest="200" MaximumWidthRequest="400"></Image>
-        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Buscar Partida" Command="{Binding buscarPartidaCommand}" MaximumWidthRequest="200" BorderColor="Black"/>
-        <Button BackgroundColor="LightGrey" TextColor="Black" Text="Salir cola" Command="{Binding abandonarColaCommand}"  MaximumWidthRequest="200" BorderColor="Black"/>
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout Spacing="15" Padding="20">
+
+            <Frame BorderColor="Black"
+                   BackgroundColor="#FFFFFF"
+                   CornerRadius="15"
+                   Padding="15">
+                <Label Text="PokéMatch: ¡Encuentra al Pokémon Correcto!" 
+                   FontSize="24"
+                   FontAttributes="Bold"
+                   TextColor="Black"
+                   HorizontalOptions="Center"
+                   Margin="0,10"/>
+            </Frame>
+
+            <Frame BorderColor="Black"
+                   BackgroundColor="#FFFFFF"
+                   CornerRadius="15"
+                   Padding="15">
+                <VerticalStackLayout Spacing="12">
+                    <Label Text="¡Pon a prueba tu velocidad y conocimiento en PokéMatch!"
+                           FontAttributes="Italic"
+                           TextColor="#333333"
+                           FontSize="16"/>
+
+                    <Label Text="✅ Encuentra rápidamente el Pokémon indicado"
+                           TextColor="#2E7D32"
+                           FontSize="14"/>
+
+                    <Label Text="✅ Aciertos = + puntos"
+                           TextColor="#2E7D32"
+                           FontSize="14"/>
+
+                    <Label Text="❌ Fallos = Reinicio de puntuación"
+                           TextColor="#C62828"
+                           FontSize="14"/>
+
+                    <Label Text="⏳ ¡2 minutos de batalla épica!"
+                           TextColor="Black"
+                           FontSize="14"
+                           FontAttributes="Bold"/>
+
+                    <Label Text="🔄 ¡Tienes 5 comodines si no sabes la respuesta!"
+                           TextColor="Black"
+                           FontSize="14"
+                           FontAttributes="Bold"/>
+                </VerticalStackLayout>
+            </Frame>
+
+
+            <Image Source="https://66.media.tumblr.com/927365f0bbdd1f3d2f852bac8759f89b/tumblr_mh8a7wx1WG1rfjowdo1_r2_500.gif"
+                   HeightRequest="200"
+                   WidthRequest="300"
+                   HorizontalOptions="Center"
+                   Aspect="AspectFit"/>
+
+
+            <Grid ColumnSpacing="20" HorizontalOptions="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Text="Buscar Partida" 
+                        Command="{Binding buscarPartidaCommand}"
+                        Grid.Column="0"
+                        BackgroundColor="Green"
+                        TextColor="White"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Padding="20,10"/>
+
+                <Button Text="Salir cola" 
+                        Command="{Binding abandonarColaCommand}"
+                        Grid.Column="1"
+                        BackgroundColor="#E71D36"
+                        TextColor="White"
+                        CornerRadius="10"
+                        FontAttributes="Bold"
+                        Padding="20,10"/>
+            </Grid>
+
+
+            <Frame BorderColor="Black"
+                   BackgroundColor="#FFFFFF"
+                   CornerRadius="15"
+                   Padding="15"
+                   IsVisible="{Binding BotonSalirColaPulsado}">
+                <VerticalStackLayout 
+                               Spacing="10"
+                               HorizontalOptions="Center"
+                               Margin="0,20">
+                <Label Text="Buscando partida..."
+                       TextColor="Black"
+                       FontSize="16"
+                       FontAttributes="Bold"
+                       HorizontalOptions="Center"/>
+
+                <Image Source="https://art.pixilart.com/3e22b4f925622dd.gif"
+                       HeightRequest="150"
+                       WidthRequest="300"
+                       Aspect="AspectFit"
+                       
+                       />
+                    
+            </VerticalStackLayout>
+    </Frame>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

@@ -12,8 +12,5 @@ public partial class LobbyPage : ContentPage
         BindingContext = _viewModel;
         InitializeComponent();
     }
-    protected override void OnAppearing()
-    {
-        base.OnAppearing();
-    }
+
 }
