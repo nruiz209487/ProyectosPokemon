@@ -9,6 +9,9 @@ public class LobbyVM : ClsINotify
 {
     #region Propiedades
     private HubConnection _connection;
+    /// <summary>
+    /// controla si los botones que interactuan con el hub estan activos o no
+    /// </summary>
     private bool _botonPulsado = true;
     public bool BotonBusquedaPulsado
     {
@@ -21,11 +24,17 @@ public class LobbyVM : ClsINotify
             OnPropertyChanged(nameof(BotonSalirColaPulsado));
         }
     }
+    /// <summary>
+    /// quiero que si el salir  cola  este activo si el entrar cola no lo este 
+    /// </summary>
     public bool BotonSalirColaPulsado
     {
         get { return !_botonPulsado; }
 
     }
+    /// <summary>
+    /// Si el lobby esta lleno hace visible el labbel
+    /// </summary>
     private bool _lobbyLleno = false;
     public bool LobbyLleno
     {
@@ -37,6 +46,9 @@ public class LobbyVM : ClsINotify
         }
     }
 
+    /// <summary>
+    /// cuenta el numero de jugadores en la cola
+    /// </summary>
     private int jugadoresCola = 0;
     public int JugadoresCola
     {
@@ -47,8 +59,15 @@ public class LobbyVM : ClsINotify
             OnPropertyChanged(nameof(JugadoresCola));
         }
     }
-    private bool errorConexion;
+
+    private bool errorConexion = false;
+    /// <summary>
+    /// Command que controla el boton buscar partida
+    /// </summary>
     public DelegateCommand buscarPartidaCommand { get; }
+    /// <summary>
+    /// Command que controla el boton abandonar cola
+    /// </summary>
     public DelegateCommand abandonarColaCommand { get; }
     #endregion
     #region constructor y funciones
@@ -63,7 +82,7 @@ public class LobbyVM : ClsINotify
         {
             await MainThread.InvokeOnMainThreadAsync(() =>
             {
-                if (_botonPulsado == false)
+                if (_botonPulsado == false) // solo entra en partida si esta buscando partida
                 {
                     BotonBusquedaPulsado = true;
                     App.Current.MainPage.Navigation.PushAsync(new GamePage());
@@ -71,11 +90,15 @@ public class LobbyVM : ClsINotify
 
             });
         });
+
         _connection.On<int>("ReceiveLobby", (numJugadores) =>
         {
             MainThread.BeginInvokeOnMainThread(() =>
             {
-                LobbyLleno = true;
+                if (numJugadores > 2) // si hay mas de dos jugadores lanza la advertencia
+                {
+                    LobbyLleno = true;
+                }
                 JugadoresCola = numJugadores;
             });
         });
@@ -89,16 +112,25 @@ public class LobbyVM : ClsINotify
         try { await _connection.StartAsync(); } catch (Exception ex) { if (!errorConexion) { errorConexion = true; await App.Current.MainPage.DisplayAlert("¡Ocurrio un error inesperado!", "No se pudo acceder al servidor, intentalo mas tarde", "OK"); App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); } }
 
     }
+    /// <summary>
+    /// Controla el command  buscarPartidaCommand y si esta activo
+    /// </summary>
+    /// <returns> boton activo</returns>
     private bool buscarPartidaCommandActivo()
     {
-
         return BotonBusquedaPulsado;
     }
+    /// <summary>
+    /// Controla el command  abandonarColaCommand y si esta activo
+    /// </summary>
+    /// <returns> boton activo</returns>
     private bool abandonarColaCommandActivo()
     {
-
         return BotonSalirColaPulsado;
     }
+    /// <summary>
+    /// Abandona la cola en el hub
+    /// </summary>
     private async void abandonarCola()
     {
         BotonBusquedaPulsado = true;
@@ -108,6 +140,9 @@ public class LobbyVM : ClsINotify
         }
         catch (Exception ex) { App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); }
     }
+    /// <summary>
+    /// entra en cola en el hub
+    /// </summary>
     private async void buscarPartida()
     {
         BotonBusquedaPulsado = false;

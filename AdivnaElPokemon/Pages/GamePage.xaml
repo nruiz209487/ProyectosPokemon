@@ -77,7 +77,7 @@
             <Frame HorizontalOptions="Center" 
                    CornerRadius="20" 
                    Padding="0"
-                   BackgroundColor="#3D7DCA"
+                   BackgroundColor="LightBlue"
                    HasShadow="True">
                 <Button Command="{Binding usarComodinCommand}" 
                        Text="{Binding ComodinesRestantes, StringFormat='🔄 Comodines restantes: ({0})'}"

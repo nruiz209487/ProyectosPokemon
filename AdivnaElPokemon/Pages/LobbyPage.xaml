@@ -27,28 +27,28 @@
                 <VerticalStackLayout Spacing="12">
                     <Label Text="¡Pon a prueba tu velocidad y conocimiento en PokéMatch!"
                            FontAttributes="Italic"
-                           TextColor="#333333"
+                           TextColor="Black"
                            FontSize="16"/>
 
                     <Label Text="✅ Encuentra rápidamente el Pokémon indicado"
-                           TextColor="#2E7D32"
+                           TextColor="Green"
                            FontSize="14"/>
 
                     <Label Text="✅ Aciertos = + puntos"
-                           TextColor="#2E7D32"
+                           TextColor="Green"
                            FontSize="14"/>
 
                     <Label Text="❌ Fallos = Reinicio de puntuación"
-                           TextColor="#C62828"
+                           TextColor="Red"
                            FontSize="14"/>
 
                     <Label Text="⏳ ¡2 minutos de batalla épica!"
-                           TextColor="Black"
+                           TextColor="Yellow"
                            FontSize="14"
                            FontAttributes="Bold"/>
 
                     <Label Text="🔄 ¡Tienes 5 comodines si no sabes la respuesta!"
-                           TextColor="Black"
+                           TextColor="Blue"
                            FontSize="14"
                            FontAttributes="Bold"/>
                 </VerticalStackLayout>
@@ -80,7 +80,7 @@
                 <Button Text="Salir cola" 
                         Command="{Binding abandonarColaCommand}"
                         Grid.Column="1"
-                        BackgroundColor="#E71D36"
+                        BackgroundColor="Red"
                         TextColor="White"
                         CornerRadius="10"
                         FontAttributes="Bold"
