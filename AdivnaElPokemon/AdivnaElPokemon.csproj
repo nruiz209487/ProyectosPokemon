@@ -64,8 +64,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ENT\MODELS.csproj" />
-	  <ProjectReference Include="..\ProyectosPokemon\DTO.csproj" />
+	  <ProjectReference Include="..\ENT\Ent.csproj" />
+	  <ProjectReference Include="..\ProyectosPokemon\Service.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

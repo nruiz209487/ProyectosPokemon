@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 public class LobbyVM : ClsINotify
 {
+    #region Propiedades
     private HubConnection _connection;
     private bool _botonPulsado = true;
     public bool BotonBusquedaPulsado
@@ -20,14 +21,11 @@ public class LobbyVM : ClsINotify
             OnPropertyChanged(nameof(BotonSalirColaPulsado));
         }
     }
-
     public bool BotonSalirColaPulsado
     {
         get { return !_botonPulsado; }
 
     }
-
-    
     private bool _lobbyLleno = false;
     public bool LobbyLleno
     {
@@ -49,10 +47,11 @@ public class LobbyVM : ClsINotify
             OnPropertyChanged(nameof(JugadoresCola));
         }
     }
-
     private bool errorConexion;
     public DelegateCommand buscarPartidaCommand { get; }
     public DelegateCommand abandonarColaCommand { get; }
+    #endregion
+    #region constructor y funciones
     public LobbyVM()
     {
         _connection = new HubConnectionBuilder()
@@ -85,9 +84,6 @@ public class LobbyVM : ClsINotify
         abandonarColaCommand = new DelegateCommand(abandonarCola, abandonarColaCommandActivo);
         buscarPartidaCommand = new DelegateCommand(buscarPartida, buscarPartidaCommandActivo);
     }
-
-
-
     private async void conexionServidor()
     {
         try { await _connection.StartAsync(); } catch (Exception ex) { if (!errorConexion) { errorConexion = true; await App.Current.MainPage.DisplayAlert("¡Ocurrio un error inesperado!", "No se pudo acceder al servidor, intentalo mas tarde", "OK"); App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); } }
@@ -124,4 +120,5 @@ public class LobbyVM : ClsINotify
             if (!errorConexion) { errorConexion = true; await App.Current.MainPage.DisplayAlert("¡Ocurrio un error inesperado al buscar partida!", "No se pudo acceder al servidor, intentalo mas tarde", "OK"); App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); }
         }
     }
+    #endregion
 }

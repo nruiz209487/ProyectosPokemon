@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DTO", "ProyectosPokemon\DTO.csproj", "{92CAC2BA-CE41-4584-A3D0-58AFF194993B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Service", "ProyectosPokemon\Service.csproj", "{92CAC2BA-CE41-4584-A3D0-58AFF194993B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MODELS", "ENT\MODELS.csproj", "{4D2DAD55-0CE1-4F8D-A547-ECA3D89EA5C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ent", "ENT\Ent.csproj", "{4D2DAD55-0CE1-4F8D-A547-ECA3D89EA5C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdivnaElPokemon", "AdivnaElPokemon\AdivnaElPokemon.csproj", "{3A419711-5487-4A8D-A6E2-F5EC07EB8DA7}"
 EndProject

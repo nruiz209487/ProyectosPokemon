@@ -1,4 +1,5 @@
-﻿using MODELS;
+﻿
+using Ent;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace DTO
+namespace Service
 {
     public class ServiceAdivinaElPokemon
     {
@@ -41,7 +42,7 @@ namespace DTO
 
         private static async Task<List<Pokemon>> FetchPokemonInParallel(List<int> indices)
         {
-            var semaphore = new SemaphoreSlim(10); // Limit concurrent requests
+            var semaphore = new SemaphoreSlim(10); 
             var tasks = indices.Select(async index =>
             {
                 await semaphore.WaitAsync();
@@ -71,7 +72,6 @@ namespace DTO
             }
             catch (HttpRequestException ex)
             {
-                Console.WriteLine($"Error fetching Pokémon {index}: {ex.Message}");
                 return null;
             }
         }

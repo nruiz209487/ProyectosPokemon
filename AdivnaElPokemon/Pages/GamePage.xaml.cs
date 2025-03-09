@@ -9,6 +9,7 @@ public partial class GamePage : ContentPage
     MainPageVM _viewModel;
     public GamePage()
     {
+        this.Disappearing += (s, e) => _viewModel.salirLobby(); //es para que si un jugador se sale del programa no se bloquee la cola
         InitializeComponent();
         _viewModel = new MainPageVM();
         BindingContext = _viewModel;

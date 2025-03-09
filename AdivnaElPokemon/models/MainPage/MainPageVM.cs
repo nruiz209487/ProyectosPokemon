@@ -1,7 +1,7 @@
 ﻿using AdivnaElPokemon.models.utils;
 using AdivnaElPokemon.Pages;
 using Microsoft.AspNetCore.SignalR.Client;
-using MODELS;
+using Ent;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,27 +17,27 @@ namespace AdivnaElPokemon.models.MainPage
     public class MainPageVM : ClsINotify
     {
         #region contador
-        private int _seconds = 120;
-        public int Seconds { get { return _seconds; } set { _seconds = value; OnPropertyChanged(nameof(SegundosVista)); } }
+        private int _segundos = 120;
+        public int Segundos { get { return _segundos; } set { _segundos = value; OnPropertyChanged(nameof(SegundosVista)); } }
         private System.Timers.Timer _timer;
         public string SegundosVista
         {
             get
             {
-                int minutes = Seconds / 60;
-                int seconds = Seconds % 60;
+                int minutes = Segundos / 60;
+                int seconds = Segundos % 60;
                 return $"{minutes:D2}:{seconds:D2}";
             }
         }
 
         private async void OnTimerTick(object sender, ElapsedEventArgs e)
         {
-            Seconds--;
-            if (_seconds == 0)
+            Segundos--;
+            if (_segundos == 0)
             {
                 _timer.Stop();
 
-                navSiguientePagina();
+                navLobby();
             }
         }
         #endregion
@@ -70,7 +70,7 @@ namespace AdivnaElPokemon.models.MainPage
         }
         #endregion
 
-        #region JuegosPokemon
+        #region JuegoPokemon
         private int _comodinesRestantes = 5;
         public int ComodinesRestantes { get { return _comodinesRestantes; } set { _comodinesRestantes = value; usarComodinCommand.RaiseCanExecuteChanged(); OnPropertyChanged(nameof(ComodinesRestantes)); } }
         private string ResultadoPartida
@@ -162,7 +162,7 @@ namespace AdivnaElPokemon.models.MainPage
             int numeroDePokemon = 15;
             NumColumnas = numeroDePokemon / 3;
             List<Pokemon> list = new List<Pokemon>();
-            try { list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
+            try { list = await Service.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
             catch (Exception ex) { await Shell.Current.GoToAsync("//LobbyPage"); }
 
             int idAleatorio = random.Next(0, numeroDePokemon - 1);
@@ -176,7 +176,7 @@ namespace AdivnaElPokemon.models.MainPage
             int numeroDePokemon = 15;
             NumColumnas = numeroDePokemon / 3;
             List<Pokemon> list = new List<Pokemon>();
-            try { list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
+            try { list = await Service.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
             catch (Exception ex) { await Shell.Current.GoToAsync("//LobbyPage"); }
 
 
@@ -225,7 +225,7 @@ namespace AdivnaElPokemon.models.MainPage
             {
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    if (_seconds != 0)
+                    if (_segundos != 0)
                     {
                         NumeroDeAciertosEnemigo = numAciertos;
                     }
@@ -244,14 +244,14 @@ namespace AdivnaElPokemon.models.MainPage
 
         }
 
-        private async void navSiguientePagina()
+        private async void navLobby()
         {
 
             MainThread.BeginInvokeOnMainThread(async () =>
             {
                 try
                 {
-                    await _connection.InvokeAsync("SalirLobby");
+                    salirLobby();
                     await App.Current.MainPage.DisplayAlert("¡Se acabó el tiempo!", ResultadoPartida, "OK");
                     await Shell.Current.GoToAsync("//LobbyPage");
                 }
@@ -259,7 +259,10 @@ namespace AdivnaElPokemon.models.MainPage
 
             });
         }
-
+        public async void salirLobby()
+        {
+            await _connection.InvokeAsync("SalirLobby");
+        }
         #endregion
     }
 }

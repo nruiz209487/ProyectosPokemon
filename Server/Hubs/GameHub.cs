@@ -10,8 +10,6 @@ namespace Server.Hubs
         {
             await Clients.Others.SendAsync("ReceiveAcierto", acierto);
         }
-
-
         public async Task SendEntarLobby()
         {
             jugadoresListos++;
@@ -31,7 +29,5 @@ namespace Server.Hubs
             }
             else { await Clients.All.SendAsync("ReceiveLobby", jugadoresListos); }
         }
-
-
     }
 }
