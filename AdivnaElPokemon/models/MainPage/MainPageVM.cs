@@ -225,7 +225,10 @@ namespace AdivnaElPokemon.models.MainPage
             {
                 MainThread.BeginInvokeOnMainThread(() =>
                 {
-                    NumeroDeAciertosEnemigo = numAciertos;
+                    if (_seconds != 0)
+                    {
+                        NumeroDeAciertosEnemigo = numAciertos;
+                    }
                 });
             });
 

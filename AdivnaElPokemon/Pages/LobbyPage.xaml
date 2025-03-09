@@ -109,8 +109,21 @@
                        Aspect="AspectFit"
                        
                        />
-                    
-            </VerticalStackLayout>
+                    <Label Text="{Binding JugadoresCola, StringFormat='Jugadores en cola: {0}'}"
+                     TextColor="Black"
+                     FontSize="16"
+                     FontAttributes="Bold"
+                     HorizontalOptions="Center"
+                           IsVisible="{Binding LobbyLleno}"
+                           />
+                    <Label Text='!No pueden ser mas de 2 Jugadores en cola o el juego nunca empezara!.'
+                     TextColor="Red"
+                     FontSize="16"
+                     FontAttributes="Bold"
+                     HorizontalOptions="Center"
+                           IsVisible="{Binding LobbyLleno}"
+                           />
+                </VerticalStackLayout>
     </Frame>
         </VerticalStackLayout>
     </ScrollView>

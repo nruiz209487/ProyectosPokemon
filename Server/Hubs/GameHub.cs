@@ -19,12 +19,17 @@ namespace Server.Hubs
             {
                 await Clients.All.SendAsync("ReceiveIniciarJuego");
             }
-
+            else { await Clients.All.SendAsync("ReceiveLobby", jugadoresListos); }
         }
 
         public async Task SalirLobby()
         {
             jugadoresListos--;
+            if (jugadoresListos == 2)
+            {
+                await Clients.All.SendAsync("ReceiveIniciarJuego");
+            }
+            else { await Clients.All.SendAsync("ReceiveLobby", jugadoresListos); }
         }
 
 
