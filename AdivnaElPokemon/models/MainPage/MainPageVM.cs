@@ -47,11 +47,26 @@ namespace AdivnaElPokemon.models.MainPage
 
         private async void conexionServidor()
         {
-            await _connection.StartAsync();
+            try
+            {
+                await _connection.StartAsync();
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.GoToAsync("//LobbyPage");
+            }
         }
+
         private async void enviarContadorDeAciertos()
         {
-            await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
+            try
+            {
+                await _connection.InvokeAsync("SendAcierto", NumeroDeAciertos);
+            }
+            catch (Exception ex)
+            {
+                await Shell.Current.GoToAsync("//LobbyPage");
+            }
         }
         #endregion
 
@@ -146,7 +161,10 @@ namespace AdivnaElPokemon.models.MainPage
         {
             int numeroDePokemon = 15;
             NumColumnas = numeroDePokemon / 3;
-            List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
+            List<Pokemon> list = new List<Pokemon>();
+            try { list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
+            catch (Exception ex) { await Shell.Current.GoToAsync("//LobbyPage"); }
+
             int idAleatorio = random.Next(0, numeroDePokemon - 1);
             ListadoDePokemons = new ObservableCollection<Pokemon>(list);
             PokemonRespuesta = ListadoDePokemons[idAleatorio];
@@ -157,7 +175,11 @@ namespace AdivnaElPokemon.models.MainPage
             SelecionarPokemonDisponible = false; //lo tengo que poner por que como no tiene que hacerla comprobacion salta directamente al metodo y si la api va lenta puede selecionar muchos al mismo tiempo
             int numeroDePokemon = 15;
             NumColumnas = numeroDePokemon / 3;
-            List<Pokemon> list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon);
+            List<Pokemon> list = new List<Pokemon>();
+            try { list = await DTO.ServiceAdivinaElPokemon.ObtenerListadoDePokemonsDTO(numeroDePokemon); }
+            catch (Exception ex) { await Shell.Current.GoToAsync("//LobbyPage"); }
+
+
             int idAleatorio = random.Next(0, numeroDePokemon - 1);
             ListadoDePokemons = new ObservableCollection<Pokemon>(list);
             PokemonRespuesta = ListadoDePokemons[idAleatorio];
@@ -221,11 +243,17 @@ namespace AdivnaElPokemon.models.MainPage
 
         private async void navSiguientePagina()
         {
+
             MainThread.BeginInvokeOnMainThread(async () =>
             {
-                await _connection.InvokeAsync("SalirLobby");
-                await App.Current.MainPage.DisplayAlert("¡Se acabó el tiempo!", ResultadoPartida, "OK");
-                await Shell.Current.GoToAsync("//LobbyPage");
+                try
+                {
+                    await _connection.InvokeAsync("SalirLobby");
+                    await App.Current.MainPage.DisplayAlert("¡Se acabó el tiempo!", ResultadoPartida, "OK");
+                    await Shell.Current.GoToAsync("//LobbyPage");
+                }
+                catch (Exception ex) { await Shell.Current.GoToAsync("//LobbyPage"); }
+
             });
         }
 

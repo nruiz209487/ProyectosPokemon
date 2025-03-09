@@ -55,7 +55,8 @@ public class LobbyVM : ClsINotify
 
     private async void conexionServidor()
     {
-        await _connection.StartAsync();
+        try { await _connection.StartAsync(); } catch (Exception ex) { App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); }
+
     }
     private bool buscarPartidaCommandActivo()
     {
@@ -70,11 +71,19 @@ public class LobbyVM : ClsINotify
     private async void abandonarCola()
     {
         BotonBusquedaPulsado = true;
-        await _connection.InvokeAsync("SalirLobby");
+        try
+        {
+            await _connection.InvokeAsync("SalirLobby");
+        }
+        catch (Exception ex) { App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); }
     }
     private async void buscarPartida()
     {
         BotonBusquedaPulsado = false;
-        await _connection.InvokeAsync("SendEntarLobby");
+        try
+        {
+            await _connection.InvokeAsync("SendEntarLobby");
+        }
+        catch (Exception ex) { App.Current.MainPage.Navigation.PushAsync(new LobbyPage()); }
     }
 }
