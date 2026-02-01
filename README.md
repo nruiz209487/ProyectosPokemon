@@ -3,6 +3,10 @@
 Juego multijugador de adivinar Pokémon desarrollado con **.NET MAUI**, **SignalR** y **ASP.NET Core**.  
 Un experimento para practicar comunicación en tiempo real y desarrollo multiplataforma.
 
+![1750082679090](https://github.com/user-attachments/assets/13fe4df5-b6f2-4acc-8a65-9f9f0943a79c)
+
+![1750082715861](https://github.com/user-attachments/assets/2b94cb5b-44c5-4e73-bef6-54bdb06c005d)
+
 ## Tecnologías
 
 - **.NET MAUI** para interfaz multiplataforma (Android, iOS, Windows, macOS)
@@ -45,8 +49,3 @@ Autor: nruiz209487
 
 Repositorio: GitHub
 Advertencia: No garantizo que este proyecto sea estable. Es solo para practicar. No culpes al mensajero.
-
-![1750082679090](https://github.com/user-attachments/assets/13fe4df5-b6f2-4acc-8a65-9f9f0943a79c)
-
-![1750082715861](https://github.com/user-attachments/assets/2b94cb5b-44c5-4e73-bef6-54bdb06c005d)
-
